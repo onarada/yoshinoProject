@@ -1,0 +1,23 @@
+version: "3"
+services:
+  tomcat:
+    # 初回にイメージをビルドする際に使用するDockerfileの位置
+    build: ./tomcatContainer
+    # ホストのポートをコンテナにポートフォワードしている
+    ports:
+      - 8888:8080
+    # ホスト、コンテナ間でファイルを指定したディレクトリを共有している
+    volumes:
+      - ./tomcatContainer/webapps:/usr/local/tomcat/webapps
+
+  postgres:
+    build: ./postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db_data:
